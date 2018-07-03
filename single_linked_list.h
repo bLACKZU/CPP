@@ -13,14 +13,15 @@ typedef struct Node NODE;
 typedef NODE* NPTR; // NODE* NPTR - NODE* is a pointer to struct node
 
 bool isEmpty(NODE);
-NPTR createNode(int&);
-void insertFront(NPTR&, const int&, NPTR&);
-void insertEnd(NPTR&, const int&, NPTR&);
-int countNode(NPTR);
-void delFirst(NPTR&);
-void delEnd(NPTR&, NPTR&);
+NPTR createNode(const int&);
+void insertFront(NODE&, const int&, NODE&);
+void insertEnd(NODE&, const int&, NODE&);
+int countNode(NODE);
+void delFirst(NODE&);
+void delEnd(NODE, NODE&);
+void copyList(NODE, NODE);
 //void concatList(NPTR&, const int&, NPTR&, NPTR&, NPTR&);
-void displayList(NODE);
+void display(NPTR);
 void delList(NODE&);
 void insertNodePos(NODE&, const int&);
 

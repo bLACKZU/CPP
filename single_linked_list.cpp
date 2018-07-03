@@ -63,16 +63,15 @@ int countNode(NPTR list)
 		std::cout << "Lists are empty" << std::endl;
 		return;
 	}	
-	
-	std::cout << "~First List~" << std::endl;
 	insertEnd(firstlist, value, firstLastNode);
 	std::cout << "~Second List~" << std::endl;
 	insertEnd(secondlist, value, secondLastNode);
 	firstLastNode->next = secondList;
 	firstLastNode = secondList;
-	std::cout << "The appended list is" << firstList << std::endl;
+	std::cout << "The appended list is" << firstList << std::endl; 
 }	
-	*/
+*/
+
 void delFirst(NPTR &list)
 {
 	NPTR delNode = nullptr;
@@ -90,10 +89,12 @@ void delFirst(NPTR &list)
 	delNode = list;
 	list = list->next;
 	delete delNode;
+	delNode = nullptr;
 }	
 
-void delEnd(NPTR &list, NPTR &lastNode)
+void delEnd(NPTR list, NPTR &lastNode)
 {
+	
 	NPTR delNode = nullptr;
 	if(isEmpty(list))
 	{
@@ -102,19 +103,40 @@ void delEnd(NPTR &list, NPTR &lastNode)
 	}
 	if(countNode(list) == 1)
 	{
+		
 		delete list;
 		list = nullptr;
 		return;
 	}
-	while(list != nullptr)
+	while(list->next != lastNode)
 	{
 		list = list->next;
 	}
-	delete list;
-	list = nullptr;
-	
-	
+	list->next = nullptr;
+	delete lastNode;
+	lastNode = nullptr;
 }	
+	
+	
+
+
+NPTR copyList(NPTR list)
+{ 
+	if(isEmpty(list))
+	{
+		std::cout << "Source list is empty!" << std::endl;
+		return list;
+	}	
+	const int head = list->info;
+	NPTR secondList = createNode(head);
+	if(list->next != nullptr)
+		secondList->next = copyList(list->next);
+	return secondList;	
+}	
+
+		 
+	
+		
 	
 	
 	
@@ -155,7 +177,6 @@ void delList(NPTR &list)
 		list = list->next;
 		delete delNode;
 	}
-	delete list;
 	list = nullptr;
 }	
 	
@@ -170,6 +191,7 @@ int main()
 	NPTR secondList = nullptr;
 	NPTR firstLastNode = nullptr;
 	NPTR secondLastNode = nullptr;
+	NPTR copy = nullptr;
 	do
 	{
 		std::cout << "~~~~~~~~~~~~~MENU~~~~~~~~~~~~~" << std::endl;
@@ -181,7 +203,8 @@ int main()
 		std::cout << "6. Delete at end" << std::endl;
 		std::cout << "7. Insert at any position in list" << std::endl;
 		std::cout << "8. Display the list" << std::endl;
-		std::cout << "9. Exit" << std::endl;
+		std::cout << "9. Copy a linked list to another list" << std::endl;
+		std::cout << "10. Exit" << std::endl;
 		std::cout<< "Please enter your choice" << std::endl;
 		std::cin >> ch;
 		
@@ -201,24 +224,31 @@ int main()
 					 std::cout << nodeCount << std::endl;
 					 break;
 					 
-			//case 4 : std::cout << "The appended list is" << concatList(list, secondList, firstLastNode, secondLastNode);
-				     //break;
-					 
+			/*case 4 : std::cout << "~First List~" << std::endl;
+						
+					 std::cout << "The appended list is" << concatList(list, secondList, firstLastNode, secondLastNode);
+				     break;
+				*/	 
 			case 5 : delFirst(list);
 					 break;
 					 
 			case 6 : delEnd(list, lastNode);
 					 break;
 					 
-			case 8: display(list);
+			case 8:  display(list);
 					 break;
 			
-			case 9 : delList(list);
+			case 9 : copy = copyList(list);
+					 display(copy);
+					 delList(copy);
+					 break;
+					 
+			case 10 : delList(list);
 					 break;
 			
 			default : std::cout << "Invalid Choice" << std::endl;
 		}
-	}while(ch != 9);
+	}while(ch != 10);
 	std::cout << "Thank You !" << std::endl;
 		
 		
