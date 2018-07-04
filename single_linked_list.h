@@ -19,7 +19,9 @@ void insertEnd(NODE&, const int&, NODE&);
 int countNode(NODE);
 void delFirst(NODE&);
 void delEnd(NODE, NODE&);
-void copyList(NODE, NODE);
+void copyList(NODE&);
+int searchEl(NODE, const int&); // search a node
+void insertPos(NODE, const int &, const int &);
 //void concatList(NPTR&, const int&, NPTR&, NPTR&, NPTR&);
 void display(NPTR);
 void delList(NODE&);

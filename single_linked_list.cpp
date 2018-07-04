@@ -46,13 +46,13 @@ void insertEnd(NPTR &list, const int &value, NPTR &lastNode)
 
 int countNode(NPTR list)
 {
-	int count = 0;
+	int count = 1;
 	while(list != nullptr)
 	{
 		count++;
 		list = list->next;
 	}
-	return count;
+	return count - 1;
 }
 
 /*void concatList(NPTR &firstList, NPTR &secondList, NPTR &firstLastNode, NPTR &secondLastNode)
@@ -117,9 +117,6 @@ void delEnd(NPTR list, NPTR &lastNode)
 	lastNode = nullptr;
 }	
 	
-	
-
-
 NPTR copyList(NPTR list)
 { 
 	if(isEmpty(list))
@@ -134,23 +131,40 @@ NPTR copyList(NPTR list)
 	return secondList;	
 }	
 
-		 
-	
-		
-	
-	
-	
-//void insertNodePos(NPTR &list, const int &value)
+int searchEl(NPTR list, const int &value)
+{
+	int count = 1;
+	if(isEmpty(list))
+		return 0;
+	if(countNode(list) == 1)
+		return 1;
+	while(list->info != value)
+	{
+		count++;
+		list = list->next;
+	}	
+	return count++;
+}	
 
+void insertPos(NPTR list, const int &value, const int &pos)
+{
+	int count = 1;
+	NPTR newNode = createNode(value);
+	NPTR backup = nullptr;
+	NPTR prevNode = nullptr;
+	if(isEmpty(list))
+		std::cout << " Element cannot be inserted. Empty List!" << std::endl;
+	while(count != pos - 1)
+	{
+		count++;
+		list = list->next;
+	}
+	prevNode = list->next;
+	list->next = newNode;
+	newNode->next = prevNode;
 	
+}	
 	
-	
-
-
-
-
-
-
 void display(NPTR list)
 {
 	if(isEmpty(list))
@@ -181,11 +195,9 @@ void delList(NPTR &list)
 }	
 	
 
-	
-	
 int main()
 {
-	int ch, val, nodeCount = 0;
+	int ch, val, nodeCount, pos = 0;
 	NPTR list = nullptr;
 	NPTR lastNode = nullptr;
 	NPTR secondList = nullptr;
@@ -201,11 +213,12 @@ int main()
 		std::cout << "4. Append two linked lists" << std::endl;
 		std::cout << "5. Delete from front" << std::endl;
 		std::cout << "6. Delete at end" << std::endl;
-		std::cout << "7. Insert at any position in list" << std::endl;
-		std::cout << "8. Display the list" << std::endl;
-		std::cout << "9. Copy a linked list to another list" << std::endl;
-		std::cout << "10. Exit" << std::endl;
-		std::cout<< "Please enter your choice" << std::endl;
+		std::cout << "7. Search for an element in list" << std::endl;
+		std::cout << "8. Insert at any position in list" << std::endl; 
+		std::cout << "9. Display the list" << std::endl;
+		std::cout << "10. Copy a linked list to another list" << std::endl;
+		std::cout << "11. Exit" << std::endl;
+		std::cout << "Please enter your choice" << std::endl;
 		std::cin >> ch;
 		
 		switch(ch)
@@ -221,7 +234,7 @@ int main()
 					 break;
 					 
 			case 3 : nodeCount = countNode(list);
-					 std::cout << nodeCount << std::endl;
+					 std::cout << " The number of nodes in the linked list are " << nodeCount << std::endl;
 					 break;
 					 
 			/*case 4 : std::cout << "~First List~" << std::endl;
@@ -234,21 +247,33 @@ int main()
 					 
 			case 6 : delEnd(list, lastNode);
 					 break;
-					 
-			case 8:  display(list);
-					 break;
 			
-			case 9 : copy = copyList(list);
+			case 7 : std::cout << "Please enter the value you want to search for" << std::endl;
+					 std::cin >> val;	
+					 pos = searchEl(list, val);
+					 std::cout << "The element is found at " << pos << " position " << "." << std::endl;
+					 break;
+					 
+			case 8 : std::cout << "Please enter the element you want to insert along with the position" << std::endl;
+					 std::cin >> val;
+					 std::cin >> pos;
+					 insertPos(list, val, pos);
+					 break;
+					  
+			case 9	: display(list);
+					  break;
+			
+			case 10 : copy = copyList(list);
 					 display(copy);
 					 delList(copy);
 					 break;
 					 
-			case 10 : delList(list);
+			case 11 : delList(list);
 					 break;
 			
 			default : std::cout << "Invalid Choice" << std::endl;
 		}
-	}while(ch != 10);
+	}while(ch != 11);
 	std::cout << "Thank You !" << std::endl;
 		
 		
