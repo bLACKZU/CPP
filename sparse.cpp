@@ -2,14 +2,14 @@
 
 int **createMat(int, int);
 int inputMat(int**, int, int);
-void **sparse(int**, int**, int, int, int, int);
+void **sparse(int**, int**, int, int, int);
 void display(int**, int, int);
 void delMat(int**, int);
 
 
 int main()
 {
-	int **arr = nullptr, **sparseMat = nullptr, **resultSp = nullptr, rows, columns, nonZeroCount = 0;
+	int **arr = NULL, **sparseMat = NULL, **resultSp = NULL, rows, columns, nonZeroCount = 0;
 	int consCol = 3;
 	std::cout << "Enter the number of rows and columns" << std::endl;
 	std::cin >> rows >> columns;
@@ -17,9 +17,9 @@ int main()
 	std::cout << "Enter the elements in the matrix" << std::endl;
 	nonZeroCount = inputMat(arr, rows, columns);
 	sparseMat = createMat(nonZeroCount + 1, consCol);
-	resultSp = sparse(sparseMat, arr, nonZeroCount, rows, columns, nonZeroCount); 
+	sparse(sparseMat, arr, nonZeroCount, rows, columns); 
 	std::cout << "The COO representation of the sparse-matrix is" << std::endl;
-	display(resultSp, nonZeroCount, consCol);
+	display(sparseMat, nonZeroCount, consCol);
 	delMat(sparseMat, nonZeroCount); 
 	delMat(arr, rows);
 }
@@ -47,7 +47,7 @@ int inputMat(int **arr, int row, int col)
 	return nonZeroCount;
 }
 
-int **sparse(int **sparseMat, int **arr, int spRow, int row, int col)
+void **sparse(int **sparseMat, int **arr, int spRow, int row, int col)
 {
 	int z = 0;
 	int x = 0;
@@ -55,9 +55,9 @@ int **sparse(int **sparseMat, int **arr, int spRow, int row, int col)
 	sparseMat[0][0] = row;
 	sparseMat[0][1] = col;
 	sparseMat[0][2] = spRow;
-	for(z = 0, y = 1; y <= spRow + 1; )
+	for(z = 0, y = 1; y <= spRow + 1, z != row; )
 	{
-		if(x < col && *(*(arr + z) + x) != 0))
+		if(x < col && *(*(arr + z) + x) != 0)
 		{
 			sparseMat[y][0] = z;
 			sparseMat[y][1] = x;
@@ -66,7 +66,7 @@ int **sparse(int **sparseMat, int **arr, int spRow, int row, int col)
 			y++;
 			continue;
 		}
-		else if(x < col && *(*(arr + z) + x) == 0))
+		else if(x < col && *(*(arr + z) + x) == 0)
 		{
 			x++;
 			continue;
@@ -76,9 +76,8 @@ int **sparse(int **sparseMat, int **arr, int spRow, int row, int col)
 			x = 0;
 			z++;
 			continue;
-		}	
-	}
-	return sparseMat;
+		}
+	}	
 }			
 
 void display(int **sparseMat, int spRow, int spCol)
