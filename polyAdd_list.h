@@ -17,8 +17,8 @@ bool isEmpty(NODE&);
 NPTR createNode(const int&, const int&);
 void insertEl(NODE&, const int&, const int&, NODE&);
 NPTR polyAdd(NODE&, NODE&, NODE&, NODE&);
-//void delList(NPTR&);
-void display(NODE&, NODE, NODE, NODE&);
+void delList(NPTR &);
+void display(NODE, NODE&, NODE&, NODE&);
 
 #endif
 

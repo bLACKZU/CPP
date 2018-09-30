@@ -37,20 +37,17 @@ NPTR polyAdd(NPTR &newList, NPTR &firstList, NPTR &secondList, NPTR &tempNode)
 	int updtCoef = 0;
 	while(firstList != nullptr && secondList != nullptr)
 	{
-		
 		if(firstList->degree == secondList->degree)
 		{
 			updtCoef = firstList->coefficient + secondList->coefficient;
 			sumList = insertEl(newList, updtCoef, firstList->degree, tempNode);
 			firstList = firstList->next;
 			secondList = secondList->next;
-			//std::cout << sumList->coefficient << std::endl;
 		}
 		else if(firstList->degree > secondList->degree)
 		{
 			updtCoef = firstList->coefficient;
 			sumList = insertEl(newList, updtCoef, firstList->degree, tempNode);
-			//std::cout << sumList->coefficient << std::endl;
 			firstList = firstList->next;
 		}
 		else if(secondList->degree > firstList->degree)
@@ -58,30 +55,27 @@ NPTR polyAdd(NPTR &newList, NPTR &firstList, NPTR &secondList, NPTR &tempNode)
 			updtCoef = secondList->coefficient;
 			sumList = insertEl(newList, updtCoef, secondList->degree, tempNode);
 			secondList = secondList->next;
-			//std::cout << sumList->coefficient << std::endl;
 		}
 	}
 	while(firstList == nullptr && secondList != nullptr)
 	{
 		sumList = insertEl(newList, secondList->coefficient, secondList->degree, tempNode);
 		secondList = secondList->next;
-		//std::cout << sumList->coefficient << std::endl;
 	}
 	while(secondList == nullptr && firstList != nullptr)
 	{
 		sumList = insertEl(newList, firstList->coefficient, firstList->degree, tempNode);
 		firstList = firstList->next;
-		//std::cout << sumList->coefficient << std::endl;
 	}
 	sumList = newList;
 	return sumList;
 }
-
-void display(NPTR newList, NPTR firstList, NPTR secondList, NPTR &tempNode)
+void display(NPTR &newList, NPTR &firstList, NPTR &secondList, NPTR &tempNode)
 {
 	
-	NPTR polySum = nullptr;
+	NPTR polySum = nullptr, bak = nullptr;
 	polySum = polyAdd(newList, firstList, secondList, tempNode);
+	bak = polySum;
 	while(polySum != nullptr)
 	{
 		if(polySum->next == nullptr)
@@ -89,11 +83,22 @@ void display(NPTR newList, NPTR firstList, NPTR secondList, NPTR &tempNode)
 		else
 			std::cout << polySum->coefficient <<"x^" << polySum->degree << "+";
 			polySum = polySum->next;
-		
 	}
 	std::cout << "\n";
+	delList(bak);
 }
-
+void delList(NPTR &list)
+{
+	NPTR delNode = nullptr;
+	while(list != nullptr)
+	{
+		delNode = list;
+		list = list->next;
+		delete delNode;
+	}
+	list = nullptr;
+}	
+	
 int main()
 {
 	int coefficient, degree, ch, ch1 = 0;
@@ -101,8 +106,8 @@ int main()
 	NPTR secondList = nullptr;
 	NPTR newList = nullptr;
 	NPTR tempNode = nullptr;
-	NPTR firstLastNode = nullptr;
-	NPTR secondLastNode = nullptr;
+	NPTR firsttempNode = nullptr;
+	NPTR secondtempNode = nullptr;
 	std::cout << "Kindly enter the elements of the polynomials you want to add" << std::endl;
 	do
 	{
@@ -120,20 +125,23 @@ int main()
 					 std::cin >> coefficient;
 					 std::cout << "Enter the degree of the polynomial" << std::endl;
 					 std::cin >> degree;		
-					 insertEl(firstList, coefficient, degree, firstLastNode);
+					 insertEl(firstList, coefficient, degree, firsttempNode);
 					 break;
 			
 			case 2 : std::cout << "Enter the coefficient of the polynomial" << std::endl;
 					 std::cin >> coefficient;
 					 std::cout << "Enter the degree of the polynomial" << std::endl;
 					 std::cin >> degree;		
-					 insertEl(secondList, coefficient, degree, secondLastNode);
+					 insertEl(secondList, coefficient, degree, secondtempNode);
 					 break;
 			
 			case 3 : display(newList, firstList, secondList, tempNode);
 					 break;
 					 
-			case 4 : break;
+			case 4 : delList(newList);
+					 delList(secondList);
+					 delList(firstList);
+					 break;
 			
 			default : std::cout << "Invalid Choice" << std::endl;
 		}
