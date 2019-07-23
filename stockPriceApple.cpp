@@ -23,7 +23,7 @@ int getMaxProfit(const std::vector<int>& stockPrices)
 		else
 			tailIndex--;
 	}
-	int maxProfit = highestPrice - lowestPrice;
+	return (highestPrice - lowestPrice);
 }
 int main()
 {
